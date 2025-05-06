@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { PrincipalProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
-import User from '../components/user';
+import User from './TelaEx1';
+import TelaEx1 from './TelaEx1';
 
 //Componente chamado TelaPrincipal que recebe 
 //PrincipalProps 
@@ -13,7 +14,7 @@ const TelaPrincipal = (props: PrincipalProps) => {
   return (
     <View
       style={[styles.tela]}>
-        <User/>
+        <TelaEx1/>
     </View>
   );
 }

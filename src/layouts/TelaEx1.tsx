@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Image } from 'react-native';
+import { View, Text, TextInput, Button, Image, Switch, Pressable, Alert } from 'react-native';
 
-const User = () => {
+const TelaEx1 = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [comorbidade, setComorbidade] = useState('');
+  const [ativado, setAtivado] = useState(false);
 
   return (
     <View>
@@ -24,13 +24,25 @@ const User = () => {
       <Text>Telefone:</Text>
       <TextInput placeholder="Digite o telefone" value={telefone} onChangeText={setTelefone} />
 
-      <Text>Possui comorbidade?</Text>
-      <TextInput placeholder="Sim ou Não" value={comorbidade} onChangeText={setComorbidade} />
+      <Text>Possui Comorbidade?</Text>
+      <Switch
+        value={ativado}
+        onValueChange={(value) => { setAtivado(value) }} />
 
-      <Button title="Cadastrar" onPress={() => {}} />
-      <Button title="Cancelar" onPress={() => {}} />
+
+      <Pressable
+        onPress={() => { Alert.alert('Cadastrar') }}>
+        <Text>Cadastrar</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={() => { Alert.alert('Cancelar') }}>
+        <Text>Cancelar</Text>
+      </Pressable>
+
+
     </View>
   );
 };
 
-export default User;
+export default TelaEx1;
