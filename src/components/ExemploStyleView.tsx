@@ -4,20 +4,20 @@ const ExemploStylesView = () => {
     return (
         <>
             <View style={styles_local.container_fixo}>
-                <View style={[styles_local.fundo_azul, 
-                    styles_local.tamanho_50, styles_local.borda]} />
-                <View style={[styles_local.fundo_laranja, 
-                    styles_local.tamanho_50, styles_local.borda]} />
-                <View style={[styles_local.fundo_verde, 
-                    styles_local.tamanho_50, styles_local.borda]} />
+                <View style={[styles_local.fundo_azul,
+                styles_local.tamanho_50, styles_local.borda]} />
+                <View style={[styles_local.fundo_laranja,
+                styles_local.tamanho_50, styles_local.borda]} />
+                <View style={[styles_local.fundo_verde,
+                styles_local.tamanho_50, styles_local.borda]} />
             </View>
             <View style={styles_local.container_flex}>
-                <View style={[styles_local.fundo_azul, 
-                    styles_local.flex_pequeno, styles_local.borda]} />
-                <View style={[styles_local.fundo_laranja, 
-                    styles_local.flex_grande, styles_local.borda]} />
-                <View style={[styles_local.fundo_verde, 
-                    styles_local.flex_grande, styles_local.borda]} />
+                <View style={[styles_local.fundo_azul,
+                styles_local.flex_pequeno, styles_local.borda]} />
+                <View style={[styles_local.fundo_laranja,
+                styles_local.flex_grande, styles_local.borda]} />
+                <View style={[styles_local.fundo_verde,
+                styles_local.flex_grande, styles_local.borda]} />
             </View>
         </>
     );
@@ -49,7 +49,7 @@ const styles_local = StyleSheet.create({
         backgroundColor: '#FFFACD',
         //margem
         margin: 10,
-        
+
     },
     fundo_azul: {
         //cor de fundo

@@ -4,6 +4,8 @@ import { PrincipalProps } from '../navigation/HomeNavigator';
 import { styles } from '../styles/styles';
 import User from './TelaEx1';
 import TelaEx1 from './TelaEx1';
+import ExemploStylesText from '../components/ExemploStyleText';
+import ExemploStylesView from '../components/ExemploStyleView';
 
 //Componente chamado TelaPrincipal que recebe 
 //PrincipalProps 
