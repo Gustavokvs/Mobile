@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from '../styles/styles';
 
 type alunoMedia = {
@@ -10,10 +10,25 @@ type alunoMedia = {
 
 const FazerMedia = (props: alunoMedia) => {
     const media = (props.nota1 + props.nota2) / 2;
-    return (
-        <Text> {props.aluno}  tem nota {props.nota1} + {props.nota2} média final: {media}  </Text>
 
+    function aprovar() {
+
+
+        if (media >= 7) {
+            return 'Aprovado';
+        } else {
+            return 'Reprovado';
+        }
+
+    }
+
+    return (
+        <View>
+            <Text> {props.aluno}  tem nota {props.nota1} + {props.nota2} média final: {media} </Text>
+            <Text> {aprovar()} </Text>
+        </View>
     );
+
 };
 
 const VerMedia = () => {
@@ -26,5 +41,5 @@ const VerMedia = () => {
         />
     );
 };
-export default VerMedia
+export default FazerMedia
 

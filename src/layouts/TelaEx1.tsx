@@ -8,6 +8,26 @@ const TelaEx1 = () => {
   const [telefone, setTelefone] = useState('');
   const [ativado, setAtivado] = useState(false);
 
+  function exibirCadastro() {
+
+    Alert.alert(
+      'Cadastro Realizado',
+      'Nome: ' + nome + '\n' +
+      'Email: ' + email + '\n' +
+      'Telefone: ' + telefone + '\n' +
+      'Comorbidade: ' + (ativado ? 'Possui' : 'Não')
+    );
+
+  }
+
+  function limparCampos() {
+    setNome('');
+    setEmail('');
+    setTelefone('');
+    setAtivado(false);
+  }
+  
+
   return (
     <View style={StylesEx1.painel}>
       <Text style={StylesEx1.titulo}>Cadastro de Cliente</Text>
@@ -17,7 +37,7 @@ const TelaEx1 = () => {
         style={StylesEx1.imagem}
       />
 
-     
+
       <View style={StylesEx1.campoContainer}>
         <Text style={StylesEx1.camposEscritos}>Nome:</Text>
         <TextInput
@@ -39,7 +59,7 @@ const TelaEx1 = () => {
         />
       </View>
 
-   
+
       <View style={StylesEx1.campoContainer}>
         <Text style={StylesEx1.camposEscritos}>Telefone:</Text>
         <TextInput
@@ -50,7 +70,7 @@ const TelaEx1 = () => {
         />
       </View>
 
-  
+
       <View style={StylesEx1.campoContainer}>
         <Text style={StylesEx1.camposEscritos}>Possui Comorbidade?</Text>
         <Switch
@@ -59,13 +79,13 @@ const TelaEx1 = () => {
         />
       </View>
 
-      
+
       <View style={StylesEx1.botoes}>
-        <Pressable onPress={() => { Alert.alert('Cadastrar') }}>
+        <Pressable onPress={() => { exibirCadastro() }}>
           <Text>Cadastrar</Text>
         </Pressable>
 
-        <Pressable onPress={() => { Alert.alert('Cancelar') }}>
+        <Pressable onPress={() => { limparCampos() }}>
           <Text>Cancelar</Text>
         </Pressable>
       </View>
