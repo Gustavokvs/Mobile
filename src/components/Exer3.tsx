@@ -11,24 +11,22 @@ type alunoMedia = {
 const FazerMedia = (props: alunoMedia) => {
     const media = (props.nota1 + props.nota2) / 2;
 
-    function aprovar() {
-
-
-        if (media >= 7) {
-            return 'Aprovado';
-        } else {
-            return 'Reprovado';
-        }
-
-    }
-
     return (
         <View>
-            <Text> {props.aluno}  tem nota {props.nota1} + {props.nota2} média final: {media} </Text>
-            <Text> {aprovar()} </Text>
+            <Text>{props.aluno} tem nota {props.nota1} + {props.nota2}. Média final: {media}</Text>
+
+            {
+                media === 0 ?
+                    <Text>Nem veio</Text>
+                    :
+                    (media >= 7 ?
+                        <Text>Parabéns pelo esforço, não fez mais que o mínimo</Text>
+                        :
+                        <Text>Reprovado, deveria ter se esforçado mais</Text>
+                    )
+            }
         </View>
     );
-
 };
 
 const VerMedia = () => {
@@ -37,9 +35,8 @@ const VerMedia = () => {
             aluno={'gustavo'}
             nota1={5}
             nota2={8}
-
         />
     );
 };
-export default FazerMedia
 
+export default FazerMedia;
