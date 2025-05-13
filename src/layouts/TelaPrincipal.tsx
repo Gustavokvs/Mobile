@@ -16,15 +16,21 @@ import Listar from '../components/Exer7';
 //como parametro e constrói uma View com o componente 
 //HelloWorld e Exemplo1 dentro
 const TelaPrincipal = (props: PrincipalProps) => {
- 
-   
-  
+
+
+
 
   return (
     <View
       style={[styles.tela]}>
-      <Listar />
+      <Text style={styles.titulo1}>Tela Principal</Text>
+      <Pressable onPress={() => {
+        props.navigation.navigate('telaNova')
+      }} >
 
+        <Text> Botão navegar</Text>
+
+      </Pressable>
     </View>
   );
 }

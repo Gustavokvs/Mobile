@@ -11,9 +11,7 @@ const Exemplo16_ListaSimples = (props: ListaSimplesProps) => {
             data={props.listaPessoas}
             renderItem={(itemLista) => {
                 return (
-                    <Text style={styles.item}>
-                        Nome: {itemLista.item}
-                    </Text>
+                    <ItemSimples nome={itemLista.item}/> 
                 )
             }}
         />
