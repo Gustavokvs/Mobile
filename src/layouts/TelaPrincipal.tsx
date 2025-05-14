@@ -1,39 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { PrincipalProps } from '../navigation/HomeNavigator';
-import { styles } from '../styles/styles';
-import User from './TelaEx1';
-import TelaEx1 from './TelaEx1';
-import ExemploStylesText from '../components/ExemploStyleText';
-import ExemploStylesView from '../components/ExemploStyleView';
-import Exemplo14_ParametroFunction from '../components/Exemplo14_ParametroFunction';
-import Exemplo13_State from '../components/Exemplo13_State';
-import CampoDeTexto from '../components/CampoDeTexto';
-import Listar from '../components/Exer7';
 
-//Componente chamado TelaPrincipal que recebe 
-//PrincipalProps 
-//como parametro e constrói uma View com o componente 
-//HelloWorld e Exemplo1 dentro
+//Componente chamado TelaPrincipal que recebe PrincipalProps como parâmetro e constrói uma View
 const TelaPrincipal = (props: PrincipalProps) => {
 
-
-
-
   return (
-    <View
-      style={[styles.tela]}>
-      <Text style={styles.titulo1}>Tela Principal</Text>
+    <View style={styles.container}>
+      <Text style={styles.titulo}>Tela Principal</Text>
+
+      <Pressable onPress={() => props.navigation.navigate('TelaNova')} style={styles.button}>
+        <Text style={styles.buttonText}>Botão navegar</Text>
+      </Pressable>
+
       <Pressable onPress={() => {
-        props.navigation.navigate('telaNova')
-      }} >
+        props.navigation.navigate('CampoDeTexto', {
+          onPressBotao: (nome: string) => {
+            Alert.alert(nome);
+          }
+        });
+      }} style={styles.button}>
+        <Text style={styles.buttonText}>Alert </Text>
+      </Pressable>
 
-        <Text> Botão navegar</Text>
+      <Pressable onPress={() => {
+        props.navigation.navigate('FazerMedia', { aluno: 'Gustavo', nota1: 1, nota2: 3 });
+      }} style={styles.button}>
+        <Text style={styles.buttonText}>Ver média</Text>
+      </Pressable>
 
+      <Pressable onPress={() => props.navigation.navigate('Listar')} style={styles.button}>
+        <Text style={styles.buttonText}>Lista de nomes</Text>
       </Pressable>
     </View>
   );
-}
+};
 
-//exportando o componente TelaPrincipal para ficar visível para outros arquivos
+// Estilos para a TelaPrincipal
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#f8f8f8',
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    color: '#333',
+  },
+  button: {
+    backgroundColor: '#4CAF50',
+    padding: 12,
+    marginVertical: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '80%',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
+
 export default TelaPrincipal;
