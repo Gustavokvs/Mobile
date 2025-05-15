@@ -5,6 +5,8 @@ import TelaNova from "../layouts/TelaNova";
 import CampoDeTexto from "../layouts/CampoDeTexto";
 import FazerMedia from "../layouts/Exer3";
 import Listar from "../layouts/Exer7";
+import TelaEx1 from "../layouts/TelaEx1";
+import CadastroPaciente from "../layouts/CadastrarPaciente";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -17,6 +19,8 @@ type RootStackParamList = {
     nota1: number;
     nota2: number;
   }
+  TelaEx1: undefined;
+  CadastroPaciente: undefined;
 
 
 
@@ -40,6 +44,10 @@ const HomeNavigator = () => {
       <Stack.Screen name="CampoDeTexto" component={CampoDeTexto} />
       <Stack.Screen name="FazerMedia" component={FazerMedia} />
       <Stack.Screen name="Listar" component={Listar} />
+      <Stack.Screen name="TelaEx1" component={TelaEx1} />
+      <Stack.Screen name="CadastroPaciente" component={CadastroPaciente} />
+
+
 
     </Stack.Navigator>
   );
@@ -62,6 +70,12 @@ type FazerMediaProps = NativeStackScreenProps<RootStackParamList,
 type ListarProps = NativeStackScreenProps<RootStackParamList,
   'Listar'>
 
+type TelaEx1Props = NativeStackScreenProps<RootStackParamList,
+  'TelaEx1'>
+
+type CadastrarPacienteProps = NativeStackScreenProps<RootStackParamList,
+  'CadastroPaciente'>
+
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
 
@@ -71,5 +85,7 @@ export type {
   NovaProps,
   CampoProps,
   FazerMediaProps,
-  ListarProps
+  ListarProps,
+  TelaEx1Props,
+  CadastrarPacienteProps
 };

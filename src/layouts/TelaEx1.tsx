@@ -1,36 +1,66 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Switch, Pressable, Alert, Image } from 'react-native';
 import { StylesEx1 } from '../styles/StylesEx1';
+import { Paciente } from '../types/Paciente';
+import { TelaEx1Props } from '../navigation/HomeNavigator';
+import firestore from "@react-native-firebase/firestore";
 
-const TelaEx1 = () => {
+
+const TelaEx1 = (Props: TelaEx1Props) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
-  const [ativado, setAtivado] = useState(false);
+  const [comorbidade, setComorbidade] = useState(false);
 
-  function exibirCadastro() {
+  function Cadastrar() {
+    if (VerificarCampos()) {
+      let Paciente = {
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        comorbidade: comorbidade
+      } as Paciente;
 
-    Alert.alert(
-      'Cadastro Realizado',
-      'Nome: ' + nome + '\n' +
-      'Email: ' + email + '\n' +
-      'Telefone: ' + telefone + '\n' +
-      'Comorbidade: ' + (ativado ? 'Possui' : 'Não')
-    );
+
+      firestore()
+        .collection('Paciente')
+        .add(Paciente)
+        .then(() => {
+          Alert.alert("Paciente", "Cadastrado com sucesso");
+        })
+        .catch((error) => {
+          Alert.alert("Erro", String(error));
+        });
+
+    }
+  }
+
+  function VerificarCampos() {
+    if (!nome) {
+      Alert.alert("Campo nome vazio")
+      return (false)
+    }
+    if (!email) {
+      Alert.alert("Campo email vazio")
+      return (false)
+    }
+    if (!telefone) {
+      Alert.alert("Campo telefone vazio")
+      return (false)
+    }
+
+
+    return (true)
 
   }
 
-  function limparCampos() {
-    setNome('');
-    setEmail('');
-    setTelefone('');
-    setAtivado(false);
-  }
-  
+
+
+
 
   return (
     <View style={StylesEx1.painel}>
-      <Text style={StylesEx1.titulo}>Cadastro de Cliente</Text>
+      <Text style={StylesEx1.titulo}>Cadastro de Paciente</Text>
 
       <Image
         source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2922/2922510.png' }}
@@ -74,18 +104,18 @@ const TelaEx1 = () => {
       <View style={StylesEx1.campoContainer}>
         <Text style={StylesEx1.camposEscritos}>Possui Comorbidade?</Text>
         <Switch
-          value={ativado}
-          onValueChange={(value) => { setAtivado(value) }}
+          value={comorbidade}
+          onValueChange={(value) => { setComorbidade(value) }}
         />
       </View>
 
 
       <View style={StylesEx1.botoes}>
-        <Pressable onPress={() => { exibirCadastro() }}>
+        <Pressable onPress={() => { Cadastrar() }}>
           <Text>Cadastrar</Text>
         </Pressable>
 
-        <Pressable onPress={() => { limparCampos() }}>
+        <Pressable onPress={() => { Props.navigation.goBack() }}>
           <Text>Cancelar</Text>
         </Pressable>
       </View>
