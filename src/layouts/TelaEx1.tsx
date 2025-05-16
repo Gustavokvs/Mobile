@@ -6,7 +6,7 @@ import { TelaEx1Props } from '../navigation/HomeNavigator';
 import firestore from "@react-native-firebase/firestore";
 
 
-const TelaEx1 = (Props: TelaEx1Props) => {
+const TelaEx1 = (props: TelaEx1Props) => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [telefone, setTelefone] = useState('');
@@ -31,7 +31,7 @@ const TelaEx1 = (Props: TelaEx1Props) => {
         .catch((error) => {
           Alert.alert("Erro", String(error));
         });
-
+      props.navigation.goBack()
     }
   }
 
@@ -115,7 +115,7 @@ const TelaEx1 = (Props: TelaEx1Props) => {
           <Text>Cadastrar</Text>
         </Pressable>
 
-        <Pressable onPress={() => { Props.navigation.goBack() }}>
+        <Pressable onPress={() => { props.navigation.goBack() }}>
           <Text>Cancelar</Text>
         </Pressable>
       </View>
