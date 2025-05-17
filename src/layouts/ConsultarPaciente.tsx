@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Switch, Pressable, Alert, Image, FlatList, StyleSheet } from 'react-native';
-import { StylesEx1 } from '../styles/StylesEx1';
 import { Paciente } from '../types/Paciente';
 import firestore from "@react-native-firebase/firestore";
 import { styles } from '../styles/styles';

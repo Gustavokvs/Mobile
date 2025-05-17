@@ -12,7 +12,7 @@ const FazerMedia = (props: FazerMediaProps) => {
             </Text>
 
             {
-                media === 0 ? (
+                media == 0 ? (
                     <Text style={styles.warningText}>Nem veio</Text>
                 ) : (
                     media >= 7 ? (

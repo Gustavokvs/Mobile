@@ -41,6 +41,10 @@ const TelaPrincipal = (props: PrincipalProps) => {
         <Text style={styles.buttonText}>Consultar Paciente</Text>
       </Pressable>
 
+       <Pressable onPress={() => props.navigation.navigate('PacienteUpa')} style={styles.button}>
+        <Text style={styles.buttonText}>Upa Cadastro</Text>
+      </Pressable>
+
 
     </View>
   );

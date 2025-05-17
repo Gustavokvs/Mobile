@@ -8,6 +8,7 @@ import Listar from "../layouts/Exer7";
 import TelaEx1 from "../layouts/TelaEx1";
 import CadastroPaciente from "../layouts/CadastrarPaciente";
 import ConsultarPaciente from "../layouts/ConsultarPaciente";
+import PacienteUpa from "../layouts/CadastroUpa";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -23,6 +24,7 @@ type RootStackParamList = {
   TelaEx1: undefined;
   CadastroPaciente: undefined;
   ConsultarPaciente: undefined
+  PacienteUpa: undefined
 
 
 };
@@ -48,6 +50,8 @@ const HomeNavigator = () => {
       <Stack.Screen name="TelaEx1" component={TelaEx1} />
       <Stack.Screen name="CadastroPaciente" component={CadastroPaciente} />
       <Stack.Screen name="ConsultarPaciente" component={ConsultarPaciente} />
+      <Stack.Screen name="PacienteUpa" component={PacienteUpa} />
+
 
 
 
@@ -81,6 +85,9 @@ type CadastrarPacienteProps = NativeStackScreenProps<RootStackParamList,
 type ConsultarPacienteProps = NativeStackScreenProps<RootStackParamList,
   'ConsultarPaciente'>
 
+type PacienteUpaProps = NativeStackScreenProps<RootStackParamList,
+  'PacienteUpa'>
+
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
 
@@ -93,5 +100,6 @@ export type {
   ListarProps,
   TelaEx1Props,
   CadastrarPacienteProps,
-  ConsultarPacienteProps
+  ConsultarPacienteProps,
+  PacienteUpaProps
 };
