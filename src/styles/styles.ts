@@ -185,6 +185,7 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#ccc',
+    width:100
   },
 
   picker: {
