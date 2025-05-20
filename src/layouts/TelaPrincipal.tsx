@@ -9,7 +9,7 @@ const TelaPrincipal = (props: PrincipalProps) => {
     <View style={styles.container}>
       <Text style={styles.titulo}>Tela Principal</Text>
 
-      <Pressable onPress={() => props.navigation.navigate('TelaNova')} style={styles.button}>
+      {/* <Pressable onPress={() => props.navigation.navigate('TelaNova')} style={styles.button}>
         <Text style={styles.buttonText}>Botão navegar</Text>
       </Pressable>
 
@@ -41,10 +41,25 @@ const TelaPrincipal = (props: PrincipalProps) => {
         <Text style={styles.buttonText}>Consultar Paciente</Text>
       </Pressable>
 
-       <Pressable onPress={() => props.navigation.navigate('PacienteUpa')} style={styles.button}>
+      <Pressable onPress={() => props.navigation.navigate('PacienteUpa')} style={styles.button}>
         <Text style={styles.buttonText}>Upa Cadastro</Text>
+      </Pressable> */}
+
+      <Pressable onPress={() => props.navigation.navigate('CadastroAluno')} style={styles.button}>
+        <Text style={styles.buttonText}>Cadastrar Aluno</Text>
       </Pressable>
 
+      <Pressable onPress={() => props.navigation.navigate('ConsultaAluno')} style={styles.button}>
+        <Text style={styles.buttonText}>Consultar Alunos</Text>
+      </Pressable>
+
+      <Pressable onPress={() => props.navigation.navigate('CadastroTurma')} style={styles.button}>
+        <Text style={styles.buttonText}>Cadastro de turma</Text>
+      </Pressable>
+
+      <Pressable onPress={() => props.navigation.navigate('TelaConsTurma')} style={styles.button}>
+        <Text style={styles.buttonText}>Consultar Turmas</Text>
+      </Pressable>
 
     </View>
   );
