@@ -13,6 +13,9 @@ import CadastroTurma from "../layouts/CadastroDeTurma";
 import ConsultaAluno from "../layouts/ConsultaAluno";
 import TelaConsTurma from "../layouts/ConsultarTurma";
 import CadastroAluno from "../layouts/CadastroAluno";
+import CadastroProfessor from "../layouts/CadastroProfessor";
+import CadastroDisciplina from "../layouts/CadastroDisciplina";
+
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -33,7 +36,8 @@ type RootStackParamList = {
   ConsultaAluno: undefined
   TelaConsTurma: undefined
   CadastroAluno: undefined
-
+  CadastroProfessor: undefined
+  CadastroDisciplina: undefined
 
 };
 
@@ -63,6 +67,8 @@ const HomeNavigator = () => {
       <Stack.Screen name="ConsultaAluno" component={ConsultaAluno} />
       <Stack.Screen name="TelaConsTurma" component={TelaConsTurma} />
       <Stack.Screen name="CadastroAluno" component={CadastroAluno} />
+      <Stack.Screen name="CadastroDisciplina" component={CadastroDisciplina} />
+      <Stack.Screen name="CadastroProfessor" component={CadastroProfessor} />
 
 
 
@@ -111,6 +117,10 @@ type CadastroTurmaProps = NativeStackScreenProps<RootStackParamList,
 
 type ConsultaAlunoProps = NativeStackScreenProps<RootStackParamList,
   'ConsultaAluno'>
+type CadastroProfessorProps = NativeStackScreenProps<RootStackParamList,
+  'CadastroProfessor'>
+  type CadastroDisciplinaProps = NativeStackScreenProps<RootStackParamList,
+  'CadastroDisciplina'>
 
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
@@ -129,5 +139,7 @@ export type {
   CadastroTurmaProps,
   ConsultaAlunoProps,
   TelaConsTurmaProps,
-  CadastroAlunoProps
+  CadastroAlunoProps,
+  CadastroDisciplinaProps,
+  CadastroProfessorProps
 };

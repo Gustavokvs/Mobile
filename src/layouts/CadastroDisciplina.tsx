@@ -1,0 +1,93 @@
+import { Alert, Pressable, Text, TextInput, View, Image } from 'react-native';
+import { styles } from '../styles/styles';
+import { useState } from "react";
+import firestore from "@react-native-firebase/firestore";
+import { CadastroDisciplinaProps } from '../navigation/HomeNavigator';
+import { useNavigation } from '@react-navigation/native';
+
+
+
+const CadastroDisciplina = (props: CadastroDisciplinaProps) => {
+    const [nome, setNome] = useState('');
+    const [horas, setHoras] = useState('');
+
+    function cadastrar() {
+        if (verificaCampos()) {
+            const disciplina = {
+                nome: nome,
+                horas: horas,
+            };
+
+            firestore()
+                .collection('disciplinas')
+                .add(disciplina)
+                .then(() => {
+                    Alert.alert("Disciplina", "Cadastrada com sucesso!");
+                    props.navigation.goBack();
+                })
+                .catch((error) => {
+                    Alert.alert("Erro", String(error));
+                });
+        }
+    }
+
+    function verificaCampos() {
+        if (!nome) {
+            Alert.alert("Nome em branco", "Digite um nome");
+            return false;
+        }
+        if (!horas) {
+            Alert.alert("Carga horario em branco", "Digite uma carga horaria");
+            return false;
+        }
+        return true;
+    }
+
+    function limparCampos() {
+        setNome('');
+        setHoras('');
+    }
+
+    return (
+        <View style={styles.containerPrincipal}>
+            <Text style={styles.title}>CADASTRO DE TURMA</Text>
+
+            <Image
+                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png' }}
+                style={styles.image}
+            />
+
+            <Text style={styles.label}>Nome da Disciplina:</Text>
+            <TextInput
+                placeholder="Nome da Disciplina"
+                placeholderTextColor="#666"
+                style={styles.input}
+                value={nome}
+                onChangeText={setNome}
+            />
+
+            <Text style={styles.label}>Carga Horária:</Text>
+            <TextInput
+                placeholder="Carga Horária:"
+                placeholderTextColor="#666"
+                style={styles.input}
+                value={horas}
+                onChangeText={setHoras}
+            />
+
+            <View style={styles.buttonContainer}>
+                <Pressable style={styles.button} onPress={cadastrar}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
+                </Pressable>
+                <Pressable style={[styles.button, styles.cancelButton]} onPress={limparCampos}>
+                    <Text style={styles.buttonText}>Apagar Campos</Text>
+                </Pressable>
+                <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>
+                    <Text style={styles.textoBotao}>Voltar</Text>
+                </Pressable>
+            </View>
+        </View>
+    );
+};
+
+export default CadastroDisciplina;
