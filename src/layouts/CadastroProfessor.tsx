@@ -11,39 +11,43 @@ const CadastroProfessor = (props: CadastroProfessorProps) => {
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [disciplinaId, setDisciplinaId] = useState('');
-    const [disciplina, setDisciplina] = useState<Disciplina[]>([]);
+    const [disciplinas, setDisciplinas] = useState<Disciplina[]>([]);
 
     useEffect(() => {
         const unsubscribe = firestore()
-            .collection('disciplina')
+            .collection('disciplinas')
             .onSnapshot(snapshot => {
                 const data = snapshot.docs.map(doc => ({
                     id: doc.id,
                     ...(doc.data() as Omit<Disciplina, 'id'>),
                 }));
-                setDisciplina(data);
+                setDisciplinas(data);
             });
         return () => unsubscribe();
     }, []);
 
-    const cadastrar = () => {
+    const cadastrar = async () => {
         if (verificaCampos()) {
+            const disciplinaSelecionada = disciplinas.find(d => d.id === disciplinaId);
+
+            if (!disciplinaSelecionada) {
+                Alert.alert('Erro', 'Disciplina não encontrada.');
+                return;
+            }
+
             const professor: Professor = {
                 nome,
                 telefone: parseInt(telefone, 10),
-                disciplinaId,
+                disciplina: disciplinaSelecionada,  // Agora estamos salvando o objeto completo da disciplina
             };
 
-            firestore()
-                .collection('aluno')
-                .add(professor)
-                .then(() => {
-                    Alert.alert('Professor', 'Cadastrado com sucesso!');
-                    props.navigation.goBack();
-                })
-                .catch(error => {
-                    Alert.alert('Erro', String(error));
-                });
+            try {
+                await firestore().collection('professor').add(professor); // Aqui deve ser 'professor' e não 'aluno'
+                Alert.alert('Professor', 'Cadastrado com sucesso!');
+                props.navigation.goBack();
+            } catch (error) {
+                Alert.alert('Erro', String(error));
+            }
         }
     };
 
@@ -53,7 +57,7 @@ const CadastroProfessor = (props: CadastroProfessorProps) => {
             return false;
         }
         if (!telefone) {
-            Alert.alert('Data de nascimento em branco', 'Digite uma data de nascimento');
+            Alert.alert('Telefone em branco', 'Digite um telefone');
             return false;
         }
         if (!disciplinaId) {
@@ -89,7 +93,7 @@ const CadastroProfessor = (props: CadastroProfessorProps) => {
 
             <Text style={styles.label}>Telefone:</Text>
             <TextInput
-                placeholder="Digite a telefone"
+                placeholder="Digite o telefone"
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={telefone}
@@ -104,8 +108,8 @@ const CadastroProfessor = (props: CadastroProfessorProps) => {
                     onValueChange={itemValue => setDisciplinaId(itemValue)}
                     style={styles.picker}
                 >
-                    <Picker.Item label="Selecione uma turma" value="" />
-                    {disciplina.map(disciplina => (
+                    <Picker.Item label="Selecione uma disciplina" value="" />
+                    {disciplinas.map(disciplina => (
                         <Picker.Item key={disciplina.id} label={disciplina.nome} value={disciplina.id} />
                     ))}
                 </Picker>

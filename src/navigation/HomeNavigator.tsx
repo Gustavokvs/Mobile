@@ -15,7 +15,9 @@ import TelaConsTurma from "../layouts/ConsultarTurma";
 import CadastroAluno from "../layouts/CadastroAluno";
 import CadastroProfessor from "../layouts/CadastroProfessor";
 import CadastroDisciplina from "../layouts/CadastroDisciplina";
-
+import ConsultarProfessor from "../layouts/ConsultarProfessor";
+import ConsultarDisciplina from "../layouts/ConsultarDIsciplina";
+import AlterarCadAluno from "../layouts/AlterarCadAluno";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -38,6 +40,10 @@ type RootStackParamList = {
   CadastroAluno: undefined
   CadastroProfessor: undefined
   CadastroDisciplina: undefined
+  ConsultarAluno: undefined
+  ConsultarProfessor: undefined
+  ConsultarDisciplina: undefined
+  AlterarCadAluno: {id: string};
 
 };
 
@@ -69,8 +75,9 @@ const HomeNavigator = () => {
       <Stack.Screen name="CadastroAluno" component={CadastroAluno} />
       <Stack.Screen name="CadastroDisciplina" component={CadastroDisciplina} />
       <Stack.Screen name="CadastroProfessor" component={CadastroProfessor} />
-
-
+      <Stack.Screen name="ConsultarProfessor" component={ConsultarProfessor} />
+      <Stack.Screen name="ConsultarDisciplina" component={ConsultarDisciplina} />
+      <Stack.Screen name="AlterarCadAluno" component={AlterarCadAluno} />
 
 
     </Stack.Navigator>
@@ -94,7 +101,7 @@ type FazerMediaProps = NativeStackScreenProps<RootStackParamList,
 type TelaConsTurmaProps = NativeStackScreenProps<RootStackParamList,
   'TelaConsTurma'>
 
-  type CadastroAlunoProps = NativeStackScreenProps<RootStackParamList,
+type CadastroAlunoProps = NativeStackScreenProps<RootStackParamList,
   'CadastroAluno'>
 
 type ListarProps = NativeStackScreenProps<RootStackParamList,
@@ -119,9 +126,14 @@ type ConsultaAlunoProps = NativeStackScreenProps<RootStackParamList,
   'ConsultaAluno'>
 type CadastroProfessorProps = NativeStackScreenProps<RootStackParamList,
   'CadastroProfessor'>
-  type CadastroDisciplinaProps = NativeStackScreenProps<RootStackParamList,
+type CadastroDisciplinaProps = NativeStackScreenProps<RootStackParamList,
   'CadastroDisciplina'>
-
+type ConsultarProfessorProps = NativeStackScreenProps<RootStackParamList,
+  'ConsultarProfessor'>
+type ConsultarDisciplinaProps = NativeStackScreenProps<RootStackParamList,
+  'ConsultarDisciplina'>
+  type AlterarAlunoProps = NativeStackScreenProps<RootStackParamList,
+  'AlterarCadAluno'>
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
 
@@ -139,7 +151,10 @@ export type {
   CadastroTurmaProps,
   ConsultaAlunoProps,
   TelaConsTurmaProps,
-  CadastroAlunoProps,
   CadastroDisciplinaProps,
-  CadastroProfessorProps
+  CadastroAlunoProps,
+  CadastroProfessorProps,
+  ConsultarProfessorProps,
+  ConsultarDisciplinaProps,
+  AlterarAlunoProps
 };

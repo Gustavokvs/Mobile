@@ -34,7 +34,7 @@ const ConsultaAluno = (props: ConsultaAlunoProps) => {
     }
 
     function alterarDados(id: string) {
-        // props.navigation.navigate("TelaAltAluno", { id: id });
+    props.navigation.navigate("AlterarCadAluno", { id: id });
     }
 
     return (

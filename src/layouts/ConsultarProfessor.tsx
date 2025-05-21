@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 import firestore from "@react-native-firebase/firestore";
+import { ConsultarProfessorProps } from "../navigation/HomeNavigator";
 import { Professor } from "../types/Professor";
 
-const ConsultaProfessor = (props: any) => {
+const ConsultarProfessor = (props: ConsultarProfessorProps) => {
     const [professor, setProfesor] = useState<Professor[]>([]);
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const ConsultaProfessor = (props: any) => {
         return () => subscribe();
     }, []);
 
-    function deletarAluno(id: string) {
+    function deletarProfessor(id: string) {
         firestore()
             .collection("professor")
             .doc(id)
@@ -38,15 +39,15 @@ const ConsultaProfessor = (props: any) => {
 
     return (
         <View style={styles.tela}>
-            <Text style={styles.titulo}>Lista de Alunos</Text>
+            <Text style={styles.titulo}>Lista de Professores</Text>
 
             <FlatList
                 data={professor}
                 renderItem={({ item, index }) => (
                     <ItemProfessor
                         numeroOrdem={index + 1}
-                        aluno={item}
-                        onDeletar={deletarAluno}
+                        professor={item}
+                        onDeletar={deletarProfessor}
                         onAlterar={alterarDados}
                     />
                 )}
@@ -66,28 +67,28 @@ const ConsultaProfessor = (props: any) => {
 
 type ItemProfessorProps = {
     numeroOrdem: number;
-    aluno: Professor;
+    professor: Professor;
     onDeletar: (id: string) => void;
     onAlterar: (id: string) => void;
 };
 
-const ItemProfessor = ({ numeroOrdem, aluno, onDeletar, onAlterar }: ItemProfessorProps) => {
+const ItemProfessor = ({ numeroOrdem, professor, onDeletar, onAlterar }: ItemProfessorProps) => {
     return (
         <View style={styles.card}>
             <View style={styles.dadosCard}>
-                <Text style={styles.tituloCard}>{numeroOrdem + " - " + aluno.nome}</Text>
-                <Text style={styles.textoCard}>ID: {aluno.id}</Text>
-                <Text style={styles.textoCard}>Nome: {aluno.nome}</Text>
-                <Text style={styles.textoCard}>Data de Nascimento: {aluno.telefone}</Text>
-                <Text style={styles.textoCard}>ID da Disciplina: {aluno.disciplinaId}</Text>
+                <Text style={styles.tituloCard}>{numeroOrdem + " - " + professor.nome}</Text>
+                <Text style={styles.textoCard}>ID: {professor.id}</Text>
+                <Text style={styles.textoCard}>Nome: {professor.nome}</Text>
+                <Text style={styles.textoCard}>Data de Nascimento: {professor.telefone}</Text>
+                <Text style={styles.textoCard}>ID da Disciplina: {professor.disciplina && professor.disciplina.nome}</Text>
 
             </View>
 
             <View style={styles.botoesCard}>
-                <Pressable style={styles.botaoExcluir} onPress={() => aluno.id && onDeletar(aluno.id)}>
+                <Pressable style={styles.botaoExcluir} onPress={() => professor.id && onDeletar(professor.id)}>
                     <Text style={styles.textoBotaoAcao}>X</Text>
                 </Pressable>
-                <Pressable style={styles.botaoAlterar} onPress={() => aluno.id && onAlterar(aluno.id)}>
+                <Pressable style={styles.botaoAlterar} onPress={() => professor.id && onAlterar(professor.id)}>
                     <Text style={styles.textoBotaoAcao}>A</Text>
                 </Pressable>
 
@@ -96,7 +97,7 @@ const ItemProfessor = ({ numeroOrdem, aluno, onDeletar, onAlterar }: ItemProfess
     );
 };
 
-export default ConsultaProfessor;
+export default ConsultarProfessor;
 
 const styles = StyleSheet.create({
     tela: {

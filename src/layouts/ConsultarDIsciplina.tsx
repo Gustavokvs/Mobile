@@ -1,32 +1,35 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import firestore from "@react-native-firebase/firestore";
-import { Disciplicina } from "../types/Disciplina";
-import { useNavigation } from "@react-navigation/native";
+import { Disciplina } from "../types/Disciplina";
+import { ConsultarDisciplinaProps } from "../navigation/HomeNavigator";
 
-const TelaConsDisciplina = () => {
-  const [disciplina, setDisciplina] = useState<Disciplicina[]>([]);
-  const navigation = useNavigation<any>();
+const ConsultarDisciplina = (props: ConsultarDisciplinaProps) => {
+  const [disciplina, setDisciplina] = useState<Disciplina[]>([]);
 
   useEffect(() => {
     const unsubscribe = firestore()
-      .collection('disciplina')
+      .collection('disciplinas')
       .onSnapshot(snapshot => {
         const data = snapshot.docs.map(doc => ({
           id: doc.id,
-          ...(doc.data() as Omit<Disciplicina, 'id'>),
+          ...(doc.data() as Omit<Disciplina, 'id'>),
         }));
-        console.log("Disciplinas carregadas:", data);
+        console.log("Disciplinas carregadas:", data);  // Log para depuração
         setDisciplina(data);
       });
   
     return () => unsubscribe();
   }, []);
   
-
   function deletarDisciplina(id: string) {
+    if (!id) {
+      Alert.alert("Erro", "ID da disciplina não encontrado.");
+      return;
+    }
+
     firestore()
-      .collection("disciplina")
+      .collection("disciplinas")
       .doc(id)
       .delete()
       .then(() => {
@@ -36,20 +39,24 @@ const TelaConsDisciplina = () => {
   }
 
   function alterarDisciplina(id: string) {
-    navigation.navigate("TelaAltDisciplina", { id });
+    if (!id) {
+      Alert.alert("Erro", "ID da disciplina não encontrado.");
+      return;
+    }
+    // props.navigation.navigate("TelaAltDisciplina", { id });
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Consulta de Turmas</Text>
+      <Text style={styles.title}>Consulta de Disciplinas</Text>
 
       <FlatList
         data={disciplina}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id || String(item.id)}  // Garantindo que sempre haja uma chave
         renderItem={({ item, index }) => (
-          <ItemTurma
+          <ItemDisciplina
             numeroOrdem={index + 1}
-            turma={item}
+            disciplina={item}
             onDeletar={deletarDisciplina}
             onAlterar={alterarDisciplina}
           />
@@ -57,7 +64,7 @@ const TelaConsDisciplina = () => {
         ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma disciplina cadastrada</Text>}
       />
 
-      <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
+      <Pressable style={styles.backButton} onPress={() => props.navigation.goBack()}>
         <Text style={styles.backButtonText}>Voltar</Text>
       </Pressable>
     </View>
@@ -66,31 +73,36 @@ const TelaConsDisciplina = () => {
 
 type ItemDisciplinaProps = {
   numeroOrdem: number;
-  turma: Disciplicina;
+  disciplina: Disciplina;
   onDeletar: (id: string) => void;
   onAlterar: (id: string) => void;
 };
 
-const ItemTurma = ({ numeroOrdem, turma, onDeletar, onAlterar }: ItemDisciplinaProps) => (
-  <View style={styles.card}>
-    <View style={styles.cardInfo}>
-      <Text style={styles.cardTitle}>{`${numeroOrdem}. ${turma.nome}`}</Text>
-      <Text style={styles.cardText}>Sala: {turma.sala}</Text>
-      <Text style={styles.cardText}>Turno: {turma.turno}</Text>
-    </View>
+const ItemDisciplina = ({ numeroOrdem, disciplina, onDeletar, onAlterar }: ItemDisciplinaProps) => {
+  // Garantindo que nome e horas não sejam nulos ou indefinidos
+  const nome = disciplina.nome || 'Sem nome';
+  const horas = disciplina.horas != null ? String(disciplina.horas) : 'Não definido'; // Garantir que horas seja uma string
 
-    <View style={styles.cardActions}>
-      <Pressable style={styles.editButton} onPress={() => onAlterar(turma.id)}>
-        <Text style={styles.buttonText}>Editar</Text>
-      </Pressable>
-      <Pressable style={styles.deleteButton} onPress={() => onDeletar(turma.id)}>
-        <Text style={styles.buttonText}>Excluir</Text>
-      </Pressable>
-    </View>
-  </View>
-);
+  return (
+    <View style={styles.card}>
+      <View style={styles.cardInfo}>
+        <Text style={styles.cardTitle}>{`${numeroOrdem}. ${nome}`}</Text>
+        <Text style={styles.cardText}>Horas: {horas}</Text>
+      </View>
 
-export default TelaConsDisciplina;
+      <View style={styles.cardActions}>
+        <Pressable style={styles.editButton} onPress={() => onAlterar(disciplina.id || '')}>
+          <Text style={styles.buttonText}>Editar</Text>
+        </Pressable>
+        <Pressable style={styles.deleteButton} onPress={() => onDeletar(disciplina.id || '')}>
+          <Text style={styles.buttonText}>Excluir</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+};
+
+export default ConsultarDisciplina;
 
 const styles = StyleSheet.create({
   container: {
