@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { Aluno } from "../types/Aluno";
+import { ConsultaAlunoProps } from "../navigation/HomeNavigator";
 
-const ConsultaAluno = (props: any) => {
+const ConsultaAluno = (props: ConsultaAlunoProps) => {
     const [alunos, setAlunos] = useState<Aluno[]>([]);
 
     useEffect(() => {
@@ -80,7 +81,7 @@ const ItemAluno = ({ numeroOrdem, aluno, onDeletar, onAlterar }: ItemAlunoProps)
                 <Text style={styles.textoCard}>Nome: {aluno.nome}</Text>
                 <Text style={styles.textoCard}>Data de Nascimento: {aluno.data_nascimento}</Text>
                 <Text style={styles.textoCard}>Email: {aluno.email}</Text>
-                <Text style={styles.textoCard}>ID da Turma: {aluno.turmaId}</Text>
+                <Text style={styles.textoCard}>ID da Turma: {aluno.turma && aluno.turma.nome}</Text>
 
             </View>
 

@@ -14,6 +14,7 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
     const [turmaId, setTurmaId] = useState('');
     const [turmas, setTurmas] = useState<Turma[]>([]);
 
+    // Carregar as turmas disponíveis
     useEffect(() => {
         const unsubscribe = firestore()
             .collection('turmas')
@@ -27,28 +28,37 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
         return () => unsubscribe();
     }, []);
 
+    // Função para cadastrar o aluno
     const cadastrar = () => {
         if (verificaCampos()) {
-            const aluno: Aluno = {
-                nome,
-                data_nascimento: parseInt(data_nascimento, 10),
-                email,
-                turmaId,
-            };
+            // Encontrar a turma com base no turmaId selecionado
+            const turmaSelecionada = turmas.find(turma => turma.id === turmaId);
 
-            firestore()
-                .collection('aluno')
-                .add(aluno)
-                .then(() => {
-                    Alert.alert('Aluno', 'Cadastrado com sucesso!');
-                    props.navigation.goBack();
-                })
-                .catch(error => {
-                    Alert.alert('Erro', String(error));
-                });
+            if (turmaSelecionada) {
+                const aluno: Aluno = {
+                    nome,
+                    data_nascimento: parseInt(data_nascimento, 10),
+                    email,
+                    turma: turmaSelecionada, // Agora associamos o objeto da turma ao aluno
+                };
+
+                firestore()
+                    .collection('aluno')
+                    .add(aluno)
+                    .then(() => {
+                        Alert.alert('Aluno', 'Cadastrado com sucesso!');
+                        props.navigation.goBack();
+                    })
+                    .catch(error => {
+                        Alert.alert('Erro', String(error));
+                    });
+            } else {
+                Alert.alert('Erro', 'Turma não encontrada!');
+            }
         }
     };
 
+    // Verificar se os campos estão preenchidos corretamente
     const verificaCampos = () => {
         if (!nome) {
             Alert.alert('Nome em branco', 'Digite um nome');
