@@ -43,7 +43,7 @@ const ConsultarDisciplina = (props: ConsultarDisciplinaProps) => {
       Alert.alert("Erro", "ID da disciplina não encontrado.");
       return;
     }
-    // props.navigation.navigate("TelaAltDisciplina", { id });
+    props.navigation.navigate("AlterarCadDisciplina", { id });
   }
 
   return (

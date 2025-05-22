@@ -6,7 +6,6 @@ import { CadastroDisciplinaProps } from '../navigation/HomeNavigator';
 import { useNavigation } from '@react-navigation/native';
 
 
-
 const CadastroDisciplina = (props: CadastroDisciplinaProps) => {
     const [nome, setNome] = useState('');
     const [horas, setHoras] = useState('');
@@ -32,12 +31,12 @@ const CadastroDisciplina = (props: CadastroDisciplinaProps) => {
     }
 
     function verificaCampos() {
-        if (!nome) {
-            Alert.alert("Nome em branco", "Digite um nome");
+        if (!nome.trim() || !/^[A-Za-zÀ-ÿ\s]+$/.test(nome)) {
+            Alert.alert("Validação", "O nome deve conter apenas letras e espaços.");
             return false;
         }
-        if (!horas) {
-            Alert.alert("Carga horario em branco", "Digite uma carga horaria");
+        if (!horas || isNaN(alrasuno.data_nascimento)) {
+            Alert.alert("Vaa carga horariae nascimento válida.");
             return false;
         }
         return true;

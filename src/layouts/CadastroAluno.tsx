@@ -35,23 +35,43 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
             const turmaSelecionada = turmas.find(turma => turma.id === turmaId);
 
             if (turmaSelecionada) {
-                const aluno: Aluno = {
-                    nome,
-                    data_nascimento: parseInt(data_nascimento, 10),
-                    email,
-                    turma: turmaSelecionada, // Agora associamos o objeto da turma ao aluno
-                };
+                // Remover os caracteres não numéricos da data
+                const dataFormatada = data_nascimento.replace(/[^0-9]/g, '');
 
-                firestore()
-                    .collection('aluno')
-                    .add(aluno)
-                    .then(() => {
-                        Alert.alert('Aluno', 'Cadastrado com sucesso!');
-                        props.navigation.goBack();
-                    })
-                    .catch(error => {
-                        Alert.alert('Erro', String(error));
-                    });
+                // Verificar se a data tem o formato correto (ddmmyyyy)
+                if (dataFormatada.length === 8) {
+                    // Formatar a data para o formato 'yyyy-mm-dd' para criar um objeto Date válido
+                    const data = `${dataFormatada.slice(4, 8)}-${dataFormatada.slice(2, 4)}-${dataFormatada.slice(0, 2)}`;
+
+                    // Criar o objeto Date e garantir que seja no UTC (para evitar problemas com fusos horários)
+                    const dataParts = data.split('-');  // data no formato yyyy-mm-dd
+                    const timestamp = Date.UTC(Number(dataParts[0]), Number(dataParts[1]) - 1, Number(dataParts[2]));  // mês começa do 0
+
+                    if (isNaN(timestamp)) {
+                        Alert.alert('Erro', 'Data de nascimento inválida');
+                        return;
+                    }
+
+                    const aluno: Aluno = {
+                        nome,
+                        data_nascimento: timestamp, // Salva a data como timestamp
+                        email,
+                        turma: turmaSelecionada, // Agora associamos o objeto da turma ao aluno
+                    };
+
+                    firestore()
+                        .collection('aluno')
+                        .add(aluno)
+                        .then(() => {
+                            Alert.alert('Aluno', 'Cadastrado com sucesso!');
+                            props.navigation.goBack();
+                        })
+                        .catch(error => {
+                            Alert.alert('Erro', String(error));
+                        });
+                } else {
+                    Alert.alert('Erro', 'Data de nascimento inválida');
+                }
             } else {
                 Alert.alert('Erro', 'Turma não encontrada!');
             }
@@ -60,16 +80,18 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
 
     // Verificar se os campos estão preenchidos corretamente
     const verificaCampos = () => {
-        if (!nome) {
-            Alert.alert('Nome em branco', 'Digite um nome');
+        if (!nome.trim() || !/^[A-Za-zÀ-ÿ\s]+$/.test(nome)) {
+            Alert.alert("Validação", "O nome deve conter apenas letras e espaços.");
             return false;
         }
-        if (!data_nascimento) {
-            Alert.alert('Data de nascimento em branco', 'Digite uma data de nascimento');
+
+        if (!data_nascimento || !/^\d{2}\/\d{2}\/\d{4}$/.test(data_nascimento)) {
+            Alert.alert("Validação", "Informe uma data de nascimento válida no formato dd/mm/aaaa.");
             return false;
         }
-        if (!email) {
-            Alert.alert('Email em branco', 'Digite um email');
+
+        if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
+            Alert.alert("Validação", "Informe um e-mail válido.");
             return false;
         }
         if (!turmaId) {
@@ -77,6 +99,21 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
             return false;
         }
         return true;
+    };
+
+    // Função para formatar a data conforme o usuário digita
+    const formatarDataNascimento = (text: string) => {
+        // Remove todos os caracteres não numéricos
+        let dataFormatada = text.replace(/[^0-9]/g, '');
+
+        // Adiciona a barra após o dia, mês e ano, se houver
+        if (dataFormatada.length > 2 && dataFormatada.length <= 4) {
+            dataFormatada = `${dataFormatada.slice(0, 2)}/${dataFormatada.slice(2)}`;
+        } else if (dataFormatada.length > 4) {
+            dataFormatada = `${dataFormatada.slice(0, 2)}/${dataFormatada.slice(2, 4)}/${dataFormatada.slice(4, 8)}`;
+        }
+
+        setDataNascimento(dataFormatada);
     };
 
     const limparCampos = () => {
@@ -110,7 +147,7 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={data_nascimento}
-                onChangeText={setDataNascimento}
+                onChangeText={formatarDataNascimento}  // Aqui chamamos a função que formata a data
                 keyboardType="numeric"
             />
 

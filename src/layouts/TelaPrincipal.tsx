@@ -57,7 +57,7 @@ const TelaPrincipal = (props: PrincipalProps) => {
         <Text style={styles.buttonText}>Cadastro de turma</Text>
       </Pressable>
 
-      <Pressable onPress={() => props.navigation.navigate('TelaConsTurma')} style={styles.button}>
+      <Pressable onPress={()   => props.navigation.navigate('TelaConsTurma')} style={styles.button}>
         <Text style={styles.buttonText}>Consultar Turmas</Text>
       </Pressable>
 

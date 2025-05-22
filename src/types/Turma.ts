@@ -1,5 +1,5 @@
 type Turma = {
-    id: string;
+    id?: string;
     nome: string;
     turno: string;
     sala: string;

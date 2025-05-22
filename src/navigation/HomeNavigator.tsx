@@ -18,6 +18,10 @@ import CadastroDisciplina from "../layouts/CadastroDisciplina";
 import ConsultarProfessor from "../layouts/ConsultarProfessor";
 import ConsultarDisciplina from "../layouts/ConsultarDIsciplina";
 import AlterarCadAluno from "../layouts/AlterarCadAluno";
+import AlterarCadProfessor from "../layouts/AlterarCadProfessor";
+import AlterarCadADisciplina from "../layouts/AlterarCadDisciplina";
+import AlterarCadTurma from "../layouts/AlterarCadTurma";
+import AlterarCadDisciplina from "../layouts/AlterarCadDisciplina";
 
 //Define quais as telas e os parâmetros de cada tela
 type RootStackParamList = {
@@ -43,7 +47,10 @@ type RootStackParamList = {
   ConsultarAluno: undefined
   ConsultarProfessor: undefined
   ConsultarDisciplina: undefined
-  AlterarCadAluno: {id: string};
+  AlterarCadAluno: { id: string };
+  AlterarCadProfessor: { id: string };
+  AlterarCadTurma: { id: string };
+  AlterarCadDisciplina: { id: string };
 
 };
 
@@ -78,7 +85,9 @@ const HomeNavigator = () => {
       <Stack.Screen name="ConsultarProfessor" component={ConsultarProfessor} />
       <Stack.Screen name="ConsultarDisciplina" component={ConsultarDisciplina} />
       <Stack.Screen name="AlterarCadAluno" component={AlterarCadAluno} />
-
+      <Stack.Screen name="AlterarCadProfessor" component={AlterarCadProfessor} />
+      <Stack.Screen name="AlterarCadDisciplina" component={AlterarCadDisciplina} />
+      <Stack.Screen name="AlterarCadTurma" component={AlterarCadTurma} />
 
     </Stack.Navigator>
   );
@@ -132,8 +141,16 @@ type ConsultarProfessorProps = NativeStackScreenProps<RootStackParamList,
   'ConsultarProfessor'>
 type ConsultarDisciplinaProps = NativeStackScreenProps<RootStackParamList,
   'ConsultarDisciplina'>
-  type AlterarAlunoProps = NativeStackScreenProps<RootStackParamList,
+type AlterarAlunoProps = NativeStackScreenProps<RootStackParamList,
   'AlterarCadAluno'>
+type AlterarCadProfessorProps = NativeStackScreenProps<RootStackParamList,
+  'AlterarCadProfessor'>
+type AlterarDisciplinaProps = NativeStackScreenProps<RootStackParamList,
+  'AlterarCadDisciplina'>
+
+type AlterarTurmaProps = NativeStackScreenProps<RootStackParamList, 'AlterarCadTurma'>;
+
+
 //exporta o navegador da pilha para ficar visível para outros arquivos    
 export default HomeNavigator;
 
@@ -156,5 +173,8 @@ export type {
   CadastroProfessorProps,
   ConsultarProfessorProps,
   ConsultarDisciplinaProps,
-  AlterarAlunoProps
+  AlterarAlunoProps,
+  AlterarCadProfessorProps,
+  AlterarDisciplinaProps,
+  AlterarTurmaProps,
 };

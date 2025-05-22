@@ -34,7 +34,7 @@ const ConsultarProfessor = (props: ConsultarProfessorProps) => {
     }
 
     function alterarDados(id: string) {
-        // props.navigation.navigate("TelaAltAluno", { id: id });
+        props.navigation.navigate("AlterarCadProfessor", { id: id });
     }
 
     return (
@@ -79,8 +79,8 @@ const ItemProfessor = ({ numeroOrdem, professor, onDeletar, onAlterar }: ItemPro
                 <Text style={styles.tituloCard}>{numeroOrdem + " - " + professor.nome}</Text>
                 <Text style={styles.textoCard}>ID: {professor.id}</Text>
                 <Text style={styles.textoCard}>Nome: {professor.nome}</Text>
-                <Text style={styles.textoCard}>Data de Nascimento: {professor.telefone}</Text>
-                <Text style={styles.textoCard}>ID da Disciplina: {professor.disciplina && professor.disciplina.nome}</Text>
+                <Text style={styles.textoCard}>Telefone: {professor.telefone}</Text>
+                <Text style={styles.textoCard}>Disciplina: {professor.disciplina && professor.disciplina.nome}</Text>
 
             </View>
 

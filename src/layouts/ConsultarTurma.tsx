@@ -36,7 +36,7 @@ const TelaConsTurma = () => {
   }
 
   function alterarTurma(id: string) {
-    navigation.navigate("TelaAltTurma", { id });
+    navigation.navigate("AlterarCadTurma", { id });
   }
 
   return (
