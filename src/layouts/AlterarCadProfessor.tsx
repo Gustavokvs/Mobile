@@ -65,16 +65,15 @@ const AlterarProfessor = (props: AlterarCadProfessorProps) => {
     }, [id]);
 
     const validarCampos = () => {
-        if (!professor.nome.trim()) {
-            Alert.alert('Validação', 'Nome não pode estar vazio.');
+        if (!professor.nome.trim() || !/^[A-Za-zÀ-ÿ\s]+$/.test(professor.nome)) {
+            Alert.alert('Validação', 'O nome deve conter apenas letras e espaços.');
             return false;
         }
-
-        if (!professor.telefone || isNaN(professor.telefone)) {
-            Alert.alert('Validação', 'Telefone inválido.');
+        const telefoneStr = professor.telefone.toString();
+        if (!telefoneStr.trim() || !/^\d{8,15}$/.test(telefoneStr)) {
+            Alert.alert('Validação', 'Digite um telefone válido com apenas números (mínimo 8 dígitos).');
             return false;
         }
-
         if (!disciplinaId) {
             Alert.alert('Validação', 'Selecione uma disciplina.');
             return false;
@@ -114,6 +113,7 @@ const AlterarProfessor = (props: AlterarCadProfessorProps) => {
         <View style={styles.container}>
             <Text style={styles.titulo}>Alterar Professor</Text>
 
+            <Text style={styles.label}>Nome da professor/a:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nome"
@@ -121,6 +121,7 @@ const AlterarProfessor = (props: AlterarCadProfessorProps) => {
                 onChangeText={(text) => setProfessor({ ...professor, nome: text })}
             />
 
+            <Text style={styles.label}>Número de telefone:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Telefone"
@@ -148,11 +149,11 @@ const AlterarProfessor = (props: AlterarCadProfessorProps) => {
             </View>
 
             <Pressable style={styles.botao} onPress={salvarAlteracoes}>
-                <Text style={styles.texto_botao}>Salvar</Text>
+                <Text style={styles.texto_botaoSalvar}>Salvar</Text>
             </Pressable>
 
             <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>
-                <Text style={styles.texto_botao}>Voltar</Text>
+                <Text style={styles.buttonTextVoltar}>Voltar</Text>
             </Pressable>
         </View>
     );

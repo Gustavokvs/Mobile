@@ -1,197 +1,264 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  // Container geral para telas
-  container: {
+
+  //cadastro
+  containerPrincipal: {
     flex: 1,
-    backgroundColor: "#E3F2FD",
+    backgroundColor: '#f4f4f4',
     paddingHorizontal: 20,
     paddingTop: 40,
-    alignItems: "center",
+    alignItems: 'center',
+    justifyContent: "center",
+
+  },
+
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#4A148C',
+  },
+
+  image: {
+    width: 120,
+    height: 120,
+    marginBottom: 20,
+  },
+
+  label: {
+    alignSelf: 'flex-start',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
+    color: '#333',
+  },
+
+  input: {
+    width: '100%',
+    height: 45,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+  },
+
+  pickerContainer: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+  },
+
+  picker: {
+    width: '100%',
+    height: 45,
+  },
+
+  buttonContainer: {
+    marginTop: 20,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  buttonCadastro: {
+    backgroundColor: '#6A1B9A',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  buttonApagar: {
+    backgroundColor: '#D32F2F',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginBottom: 10,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  botaoVoltar: {
+    backgroundColor: '#BDBDBD',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+  textoBotao: {
+    color: '#333',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
+
+  //alterar
+  container: {
+    flex: 1,
+    backgroundColor: "#F5F5FF", // tom claro com leve roxo
+    padding: 45,
     justifyContent: "center",
   },
 
-  // Título da tela principal (EMERGÊNCIA)
-  titulo1: {
-    fontSize: 35,
-    fontWeight: "bold",
-    color: "#0D47A1",
-    marginBottom: 40,
-    textAlign: "center",
-  },
-
-  // Container principal do cadastro (mais espaçado e centralizado)
-  containerPrincipal: {
-    flex: 1,
-    backgroundColor: "#E3F2FD",
-    paddingHorizontal: 20,
-    paddingTop: 40,
-    alignItems: "center",
-  },
-
-  // Títulos das telas
   titulo: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#0D47A1",
+    color: "#4B0082", // roxo escuro
     marginBottom: 20,
     textAlign: "center",
   },
 
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#0D47A1",
-    marginBottom: 30,
-  },
-
-  // Estilo para inputs de texto
-  input: {
-    width: "100%",
-    height: 45,
-    borderColor: "#90CAF9",
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    backgroundColor: "#FFF",
-    fontSize: 16,
-    color: "#333",
-  },
-
-  // Botões principais
   botao: {
-    backgroundColor: "#1E88E5",
-    paddingVertical: 12,
-    borderRadius: 8,
+    backgroundColor: "#6A0DAD", // roxo vibrante
+    padding: 14,
+    borderRadius: 10,
+    marginTop: 20,
     alignItems: "center",
-    marginTop: 15,
-    elevation: 3,
-    width: "100%",
   },
 
-  // Texto dentro do botão principal
-  texto_botao: {
+  texto_botaoSalvar: {
     color: "#FFF",
+    fontSize: 16,
     fontWeight: "bold",
+  },
+
+  buttonTextVoltar: {
+    color: "#333",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
+
+  //consultar
+
+  centralizar: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 16,
+    marginBottom: 15,
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+  },
+  dadosCard: {
+    marginBottom: 12,
+  },
+  tituloCard: {
     fontSize: 18,
-  },
-
-  button: {
-    backgroundColor: "#1E88E5",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    elevation: 3,
-    marginVertical: 5,
-    width: "48%",
-    alignItems: "center",
-  },
-
-  buttonText: {
-    color: "#FFF",
     fontWeight: "bold",
-    fontSize: 16,
+    color: "#4B0082",
+    marginBottom: 8,
   },
-
-  // Botão de cancelar/limpar campos
-  cancelButton: {
-    backgroundColor: "#EF5350",
+  textoCard: {
+    fontSize: 14,
+    color: "#333",
+    marginBottom: 4,
   },
-
-  // Botão Voltar (com estilo diferente para destaque)
-  botaoVoltar: {
-    backgroundColor: "#1565C0",
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 8,
-    marginTop: 15,
-    alignItems: "center",
-    elevation: 3,
-  },
-
-  textoBotao: {
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-
-  // Imagem para o cadastro
-  image: {
-    width: 120,
-    height: 120,
-    marginBottom: 30,
-  },
-
-  label: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#0D47A1",
-    alignSelf: "flex-start",
-    marginBottom: 5,
-  },
-
-  // Container para os botões lado a lado no cadastro
-  buttonContainer: {
+  botoesCard: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "100%",
   },
-
-  // Estilos da lista (ConsultaAluno)
-  itemContainer: {
-    backgroundColor: "#FFF",
+  botaoAlterar: {
+    backgroundColor: "#FFA500",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    padding: 15,
-    marginBottom: 10,
-    elevation: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flex: 1,
+    marginRight: 10,
   },
-
-  dadosContainer: {
+  botaoExcluir: {
+    backgroundColor: "#DC143C",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
     flex: 1,
   },
-
-  itemTexto: {
-    fontSize: 16,
-    color: "#0D47A1",
-    marginBottom: 2,
+  textoBotaoAcao: {
+    color: "#fff",
+    fontSize: 14,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 
-  acoesContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
 
-  botaoAcaoExcluir: {
-    backgroundColor: "#EF5350",
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginLeft: 8,
+  button: {
+    backgroundColor: '#6A0DAD', // Roxo escuro
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    marginVertical: 8,
+    width: '100%',
+    alignItems: 'center',
     elevation: 2,
   },
 
-  textoBotaoAcao: {
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-  pickerContainer: {
+
+  //telaprincipal
+
+  containerTela: {
+    flex: 1,
+    padding: 16,
     backgroundColor: '#fff',
-    borderRadius: 5,
-    marginBottom: 15,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    width: 100
+        justifyContent: "center",
+
+  },
+  tituloTela: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginTop: 20,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  sectionContainer: {
+    marginBottom: 20,
+  },
+  buttonTela: {
+    backgroundColor: '#6200EE',
+    padding: 15,
+    borderRadius: 6,
+    marginBottom: 10,
+  },
+  buttonTextTela: {
+    color: '#fff',
+    fontSize: 16,
+    textAlign: 'center',
   },
 
-  picker: {
-    height: 50,
-    width: '100%',
-    color: '#000',
-  },
+  emptyText: {
+  fontSize: 18,
+  fontWeight: 'bold',
+  color: '#6A0DAD',  // roxo escuro, mesma cor dos botões
+  textAlign: 'center',
+  marginTop: 30,
+  paddingHorizontal: 20,
+},
+
 
 });

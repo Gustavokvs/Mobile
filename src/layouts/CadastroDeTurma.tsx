@@ -3,7 +3,6 @@ import { styles } from '../styles/styles';
 import { useState } from "react";
 import firestore from "@react-native-firebase/firestore";
 import { CadastroTurmaProps } from '../navigation/HomeNavigator';
-import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -33,21 +32,25 @@ const CadastroTurma = (props: CadastroTurmaProps) => {
         }
     }
 
-    function verificaCampos() {
-        if (!nome) {
-            Alert.alert("Nome em branco", "Digite um nome");
+    const verificaCampos = () => {
+        if (!nome.trim() || !/^[A-Za-zÀ-ÿ0-9\s]+$/.test(nome)) {
+            Alert.alert("Validação", "O nome da turma deve conter letras, números ou espaços.");
             return false;
         }
-        if (!sala) {
-            Alert.alert("Sala em branco", "Digite uma sala");
+
+        if (!sala.trim() || !/^[0-9]+$/.test(sala)) {
+            Alert.alert("Validação", "A sala deve conter apenas números.");
             return false;
         }
-        if (!turno) {
-            Alert.alert("Turno em branco", "Digite o turno");
+
+        if (!turno.trim() || !/^(Manhã|Tarde|Noite)$/i.test(turno)) {
+            Alert.alert("Validação", "Turno inválido. Use: Manhã, Tarde ou Noite.");
             return false;
         }
+
         return true;
-    }
+    };
+
 
     function limparCampos() {
         setNome('');
@@ -59,14 +62,13 @@ const CadastroTurma = (props: CadastroTurmaProps) => {
         <View style={styles.containerPrincipal}>
             <Text style={styles.title}>CADASTRO DE TURMA</Text>
 
-            <Image
-                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2933/2933245.png' }}
+            <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/512/3062/3062634.png' }}
                 style={styles.image}
             />
 
-            <Text style={styles.label}>Nome da Turma:</Text>
+            <Text style={styles.label}>Nome:</Text>
             <TextInput
-                placeholder="Ex: 3º Ano A"
+                placeholder="Ex: 3ºA"
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={nome}
@@ -75,11 +77,13 @@ const CadastroTurma = (props: CadastroTurmaProps) => {
 
             <Text style={styles.label}>Sala:</Text>
             <TextInput
-                placeholder="Ex: Sala 102"
+                placeholder="Ex: 102"
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={sala}
                 onChangeText={setSala}
+                keyboardType="numeric"
+
             />
 
             <Text style={styles.label}>Turno:</Text>
@@ -92,10 +96,10 @@ const CadastroTurma = (props: CadastroTurmaProps) => {
             />
 
             <View style={styles.buttonContainer}>
-                <Pressable style={styles.button} onPress={cadastrar}>
+                <Pressable style={styles.buttonCadastro} onPress={cadastrar}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
                 </Pressable>
-                <Pressable style={[styles.button, styles.cancelButton]} onPress={limparCampos}>
+                <Pressable style={styles.buttonApagar} onPress={limparCampos}>
                     <Text style={styles.buttonText}>Apagar Campos</Text>
                 </Pressable>
                 <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>

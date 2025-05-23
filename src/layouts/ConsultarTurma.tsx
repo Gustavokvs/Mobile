@@ -3,6 +3,8 @@ import { Alert, FlatList, Pressable, StyleSheet, Text, View } from "react-native
 import firestore from "@react-native-firebase/firestore";
 import { Turma } from "../types/Turma";
 import { useNavigation } from "@react-navigation/native";
+import { styles } from '../styles/styles';
+
 
 const TelaConsTurma = () => {
   const [turmas, setTurmas] = useState<Turma[]>([]);
@@ -16,13 +18,14 @@ const TelaConsTurma = () => {
           id: doc.id,
           ...(doc.data() as Omit<Turma, 'id'>),
         }));
+
         console.log("Turmas carregadas:", data);
         setTurmas(data);
       });
-  
+
     return () => unsubscribe();
   }, []);
-  
+
 
   function deletarTurma(id: string) {
     firestore()
@@ -41,11 +44,12 @@ const TelaConsTurma = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Consulta de Turmas</Text>
+      <Text style={styles.titulo}>Consulta de Turmas</Text>
 
       <FlatList
         data={turmas}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id!}
+
         renderItem={({ item, index }) => (
           <ItemTurma
             numeroOrdem={index + 1}
@@ -57,9 +61,11 @@ const TelaConsTurma = () => {
         ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma turma cadastrada</Text>}
       />
 
-      <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Text style={styles.backButtonText}>Voltar</Text>
-      </Pressable>
+      <View style={styles.centralizar}>
+        <Pressable style={styles.botaoVoltar} onPress={() => navigation.goBack()}>
+          <Text style={styles.buttonText}>Voltar</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -71,95 +77,26 @@ type ItemTurmaProps = {
   onAlterar: (id: string) => void;
 };
 
-const ItemTurma = ({ numeroOrdem, turma, onDeletar, onAlterar }: ItemTurmaProps) => (
-  <View style={styles.card}>
-    <View style={styles.cardInfo}>
-      <Text style={styles.cardTitle}>{`${numeroOrdem}. ${turma.nome}`}</Text>
-      <Text style={styles.cardText}>Sala: {turma.sala}</Text>
-      <Text style={styles.cardText}>Turno: {turma.turno}</Text>
-    </View>
+const ItemTurma = ({ numeroOrdem, turma, onDeletar, onAlterar }: ItemTurmaProps) => {
+  return (
 
-    <View style={styles.cardActions}>
-      <Pressable style={styles.editButton} onPress={() => onAlterar(turma.id)}>
-        <Text style={styles.buttonText}>Editar</Text>
-      </Pressable>
-      <Pressable style={styles.deleteButton} onPress={() => onDeletar(turma.id)}>
-        <Text style={styles.buttonText}>Excluir</Text>
-      </Pressable>
+    <View style={styles.card}>
+      <View style={styles.dadosCard}>
+        <Text style={styles.tituloCard}>{numeroOrdem + " - " + turma.nome}</Text>
+        <Text style={styles.textoCard}>Sala: {turma.sala}</Text>
+        <Text style={styles.textoCard}>Turno: {turma.turno}</Text>
+      </View>
+
+      <View style={styles.botoesCard}>
+        <Pressable style={styles.botaoAlterar} onPress={() => turma.id && onAlterar(turma.id)}>
+          <Text style={styles.textoBotaoAcao}>Editar</Text>
+        </Pressable>
+        <Pressable style={styles.botaoExcluir} onPress={() => turma.id && onDeletar(turma.id)}>
+          <Text style={styles.textoBotaoAcao}>Excluir</Text>
+        </Pressable>
+      </View>
     </View>
-  </View>
-);
+  );
+};
 
 export default TelaConsTurma;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E3F2FD",
-    padding: 20,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    color: "#0D47A1",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  emptyText: {
-    fontSize: 18,
-    color: "#999",
-    textAlign: "center",
-    marginTop: 50,
-  },
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
-  },
-  cardInfo: {
-    marginBottom: 10,
-  },
-  cardTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  cardText: {
-    fontSize: 18,
-    color: "#555",
-  },
-  cardActions: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  editButton: {
-    backgroundColor: "#FFD600",
-    padding: 8,
-    borderRadius: 5,
-    marginRight: 10,
-  },
-  deleteButton: {
-    backgroundColor: "#D32F2F",
-    padding: 8,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#000",
-    fontWeight: "bold",
-  },
-  backButton: {
-    backgroundColor: "#1976D2",
-    paddingVertical: 12,
-    borderRadius: 10,
-    alignItems: "center",
-    marginTop: 20,
-  },
-  backButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-});

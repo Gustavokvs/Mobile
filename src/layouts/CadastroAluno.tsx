@@ -14,7 +14,6 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
     const [turmaId, setTurmaId] = useState('');
     const [turmas, setTurmas] = useState<Turma[]>([]);
 
-    // Carregar as turmas disponíveis
     useEffect(() => {
         const unsubscribe = firestore()
             .collection('turmas')
@@ -28,22 +27,16 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
         return () => unsubscribe();
     }, []);
 
-    // Função para cadastrar o aluno
     const cadastrar = () => {
         if (verificaCampos()) {
-            // Encontrar a turma com base no turmaId selecionado
             const turmaSelecionada = turmas.find(turma => turma.id === turmaId);
 
             if (turmaSelecionada) {
-                // Remover os caracteres não numéricos da data
                 const dataFormatada = data_nascimento.replace(/[^0-9]/g, '');
 
-                // Verificar se a data tem o formato correto (ddmmyyyy)
                 if (dataFormatada.length === 8) {
-                    // Formatar a data para o formato 'yyyy-mm-dd' para criar um objeto Date válido
                     const data = `${dataFormatada.slice(4, 8)}-${dataFormatada.slice(2, 4)}-${dataFormatada.slice(0, 2)}`;
 
-                    // Criar o objeto Date e garantir que seja no UTC (para evitar problemas com fusos horários)
                     const dataParts = data.split('-');  // data no formato yyyy-mm-dd
                     const timestamp = Date.UTC(Number(dataParts[0]), Number(dataParts[1]) - 1, Number(dataParts[2]));  // mês começa do 0
 
@@ -54,9 +47,9 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
 
                     const aluno: Aluno = {
                         nome,
-                        data_nascimento: timestamp, // Salva a data como timestamp
+                        data_nascimento: timestamp,
                         email,
-                        turma: turmaSelecionada, // Agora associamos o objeto da turma ao aluno
+                        turma: turmaSelecionada,
                     };
 
                     firestore()
@@ -78,35 +71,34 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
         }
     };
 
-    // Verificar se os campos estão preenchidos corretamente
     const verificaCampos = () => {
         if (!nome.trim() || !/^[A-Za-zÀ-ÿ\s]+$/.test(nome)) {
-            Alert.alert("Validação", "O nome deve conter apenas letras e espaços.");
-            return false;
-        }
-
-        if (!data_nascimento || !/^\d{2}\/\d{2}\/\d{4}$/.test(data_nascimento)) {
-            Alert.alert("Validação", "Informe uma data de nascimento válida no formato dd/mm/aaaa.");
+            Alert.alert('Validação', 'O nome deve conter apenas letras e espaços.');
             return false;
         }
 
         if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
-            Alert.alert("Validação", "Informe um e-mail válido.");
+            Alert.alert('Validação', 'Informe um e-mail válido.');
             return false;
         }
+
+        if (!data_nascimento.trim() || data_nascimento.length < 10) {
+            Alert.alert('Validação', 'Informe uma data de nascimento válida no formato dd/mm/yyyy.');
+            return false;
+        }
+
         if (!turmaId) {
-            Alert.alert('Turma não selecionada', 'Selecione uma turma');
+            Alert.alert('Validação', 'Selecione uma turma.');
             return false;
         }
+
         return true;
     };
 
-    // Função para formatar a data conforme o usuário digita
+
     const formatarDataNascimento = (text: string) => {
-        // Remove todos os caracteres não numéricos
         let dataFormatada = text.replace(/[^0-9]/g, '');
 
-        // Adiciona a barra após o dia, mês e ano, se houver
         if (dataFormatada.length > 2 && dataFormatada.length <= 4) {
             dataFormatada = `${dataFormatada.slice(0, 2)}/${dataFormatada.slice(2)}`;
         } else if (dataFormatada.length > 4) {
@@ -125,16 +117,16 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
 
     return (
         <View style={styles.containerPrincipal}>
-            <Text style={styles.title}>CADASTRO</Text>
+            <Text style={styles.title}>CADASTRO DO ALUNO</Text>
 
             <Image
-                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2355/2355692.png' }}
+                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/201/201818.png' }}
                 style={styles.image}
             />
 
             <Text style={styles.label}>Nome:</Text>
             <TextInput
-                placeholder="Informe o nome"
+                placeholder="Nome do aluno/a"
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={nome}
@@ -147,13 +139,13 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={data_nascimento}
-                onChangeText={formatarDataNascimento}  // Aqui chamamos a função que formata a data
+                onChangeText={formatarDataNascimento}
                 keyboardType="numeric"
             />
 
             <Text style={styles.label}>Email:</Text>
             <TextInput
-                placeholder="Informe o email"
+                placeholder="Email do aluno ou responsável"
                 placeholderTextColor="#666"
                 style={styles.input}
                 value={email}
@@ -176,10 +168,10 @@ const CadastroAluno = (props: CadastroAlunoProps) => {
             </View>
 
             <View style={styles.buttonContainer}>
-                <Pressable style={styles.button} onPress={cadastrar}>
+                <Pressable style={styles.buttonCadastro} onPress={cadastrar}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
                 </Pressable>
-                <Pressable style={[styles.button, styles.cancelButton]} onPress={limparCampos}>
+                <Pressable style={styles.buttonApagar} onPress={limparCampos}>
                     <Text style={styles.buttonText}>Apagar Campos</Text>
                 </Pressable>
                 <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>

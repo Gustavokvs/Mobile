@@ -3,6 +3,7 @@ import { Alert, Pressable, FlatList, StyleSheet, Text, View } from "react-native
 import firestore from "@react-native-firebase/firestore";
 import { Aluno } from "../types/Aluno";
 import { ConsultaAlunoProps } from "../navigation/HomeNavigator";
+import { styles } from '../styles/styles';
 
 const ConsultaAluno = (props: ConsultaAlunoProps) => {
   const [alunos, setAlunos] = useState<Aluno[]>([]);
@@ -37,28 +38,24 @@ const ConsultaAluno = (props: ConsultaAlunoProps) => {
     props.navigation.navigate("AlterarCadAluno", { id: id });
   }
 
-  // Função para formatar a data de nascimento no formato dd/mm/yyyy
   const formatarDataNascimento = (data: any) => {
-    if (!data) return ""; // Se a data for inválida, retorna uma string vazia
+    if (!data) return "";
 
-    // Se a data for um timestamp do Firestore
     if (data.toDate) {
-      data = data.toDate(); // Converte o Timestamp para um objeto Date
+      data = data.toDate();
     }
 
-    // Ajusta para o fuso horário local corretamente
     const date = new Date(data);
 
-    // Usando getUTCDate, getUTCMonth e getUTCFullYear para evitar o problema do dia a menos
     const dia = String(date.getUTCDate()).padStart(2, "0");
-    const mes = String(date.getUTCMonth() + 1).padStart(2, "0"); // Meses começam em 0
+    const mes = String(date.getUTCMonth() + 1).padStart(2, "0");
     const ano = date.getUTCFullYear();
 
-    return `${dia}/${mes}/${ano}`; // Retorna no formato dd/mm/yyyy
+    return `${dia}/${mes}/${ano}`;
   };
 
   return (
-    <View style={styles.tela}>
+    <View style={styles.container}>
       <Text style={styles.titulo}>Lista de Alunos</Text>
 
       <FlatList
@@ -69,18 +66,18 @@ const ConsultaAluno = (props: ConsultaAlunoProps) => {
             aluno={item}
             onDeletar={deletarAluno}
             onAlterar={alterarDados}
-            formatarDataNascimento={formatarDataNascimento} // Passa a função para formatar a data
+            formatarDataNascimento={formatarDataNascimento}
           />
         )}
+        ListEmptyComponent={<Text style={styles.emptyText}>Nenhuma aluno cadastrado</Text>}
+
         keyExtractor={(item) => item.id ?? ""}
       />
 
       <View style={styles.centralizar}>
         <Pressable
-          style={[styles.botao, { width: "40%" }]}
-          onPress={() => props.navigation.goBack()}
-        >
-          <Text style={styles.textoBotao}>Voltar</Text>
+          style={styles.botaoVoltar} onPress={() => props.navigation.goBack()} >
+          <Text style={styles.buttonTextVoltar}>Voltar</Text>
         </Pressable>
       </View>
     </View>
@@ -92,7 +89,7 @@ type ItemAlunoProps = {
   aluno: Aluno;
   onDeletar: (id: string) => void;
   onAlterar: (id: string) => void;
-  formatarDataNascimento: (data: any) => string; // Função para formatar a data
+  formatarDataNascimento: (data: any) => string;
 };
 
 const ItemAluno = ({ numeroOrdem, aluno, onDeletar, onAlterar, formatarDataNascimento }: ItemAlunoProps) => {
@@ -108,11 +105,11 @@ const ItemAluno = ({ numeroOrdem, aluno, onDeletar, onAlterar, formatarDataNasci
       </View>
 
       <View style={styles.botoesCard}>
-        <Pressable style={styles.botaoExcluir} onPress={() => aluno.id && onDeletar(aluno.id)}>
-          <Text style={styles.textoBotaoAcao}>X</Text>
-        </Pressable>
         <Pressable style={styles.botaoAlterar} onPress={() => aluno.id && onAlterar(aluno.id)}>
-          <Text style={styles.textoBotaoAcao}>A</Text>
+          <Text style={styles.textoBotaoAcao}>Editar</Text>
+        </Pressable>
+        <Pressable style={styles.botaoExcluir} onPress={() => aluno.id && onDeletar(aluno.id)}>
+          <Text style={styles.textoBotaoAcao}>Excluir</Text>
         </Pressable>
       </View>
     </View>
@@ -121,82 +118,3 @@ const ItemAluno = ({ numeroOrdem, aluno, onDeletar, onAlterar, formatarDataNasci
 
 export default ConsultaAluno;
 
-const styles = StyleSheet.create({
-  tela: {
-    flex: 1,
-    backgroundColor: "#E3F2FD",
-    paddingHorizontal: 20,
-    paddingTop: 40,
-  },
-  titulo: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#0D47A1",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  centralizar: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  botao: {
-    backgroundColor: "#1976D2",
-    paddingVertical: 10,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  textoBotao: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-
-  card: {
-    borderWidth: 2,
-    borderColor: "grey",
-    marginVertical: 5,
-    borderRadius: 10,
-    padding: 10,
-    flexDirection: "row",
-    backgroundColor: "white",
-    alignItems: "center",
-  },
-  dadosCard: {
-    flex: 1,
-  },
-  tituloCard: {
-    fontSize: 30,
-    color: "black",
-  },
-  textoCard: {
-    fontSize: 20,
-  },
-  botoesCard: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  botaoExcluir: {
-    backgroundColor: "red",
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    marginLeft: 5,
-  },
-  botaoAlterar: {
-    backgroundColor: "yellow",
-    width: 40,
-    height: 40,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 5,
-    marginLeft: 5,
-  },
-  textoBotaoAcao: {
-    fontWeight: "bold",
-    fontSize: 28,
-    color: "black",
-  },
-});

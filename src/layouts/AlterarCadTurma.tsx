@@ -16,7 +16,6 @@ const AlterarTurma = (props: AlterarTurmaProps) => {
   });
 
   useEffect(() => {
-    // Buscar os dados da turma a ser editada
     firestore()
       .collection('turmas')
       .doc(id)
@@ -38,23 +37,24 @@ const AlterarTurma = (props: AlterarTurmaProps) => {
   }, [id]);
 
   const validarCampos = () => {
-    if (!turma.nome.trim()) {
-      Alert.alert('Validação', 'O nome não pode estar vazio.');
-      return false;
-    }
+    if (!turma.nome.trim() || !/^[A-Za-zÀ-ÿ0-9\s]+$/.test(turma.nome)) {
+            Alert.alert("Validação", "O nome da turma deve conter letras, números ou espaços.");
+            return false;
+        }
 
-    if (!turma.sala.trim()) {
-      Alert.alert('Validação', 'A sala não pode estar vazia.');
-      return false;
-    }
+        if (!turma.sala.trim() || !/^[0-9]+$/.test(turma.sala)) {
+            Alert.alert("Validação", "A sala deve conter apenas números.");
+            return false;
+        }
 
-    if (!turma.turno.trim()) {
-      Alert.alert('Validação', 'O turno não pode estar vazio.');
-      return false;
-    }
+        if (!turma.turno.trim() || !/^(Manhã|Tarde|Noite)$/i.test(turma.turno)) {
+            Alert.alert("Validação", "Turno inválido. Use: Manhã, Tarde ou Noite.");
+            return false;
+        }
 
-    return true;
-  };
+        return true;
+    };
+
 
   const salvarAlteracoes = () => {
     if (!validarCampos()) return;
@@ -81,6 +81,7 @@ const AlterarTurma = (props: AlterarTurmaProps) => {
     <View style={styles.container}>
       <Text style={styles.titulo}>Alterar Turma</Text>
 
+      <Text style={styles.label}>Nome da Turma:</Text>
       <TextInput
         style={styles.input}
         placeholder="Nome"
@@ -88,13 +89,17 @@ const AlterarTurma = (props: AlterarTurmaProps) => {
         onChangeText={(text) => setTurma({ ...turma, nome: text })}
       />
 
+      <Text style={styles.label}>Número da sala:</Text>
       <TextInput
         style={styles.input}
         placeholder="Sala"
+        keyboardType="numeric"
         value={turma.sala}
         onChangeText={(text) => setTurma({ ...turma, sala: text })}
       />
 
+
+      <Text style={styles.label}>Nome do turno:</Text>
       <TextInput
         style={styles.input}
         placeholder="Turno"
@@ -103,11 +108,11 @@ const AlterarTurma = (props: AlterarTurmaProps) => {
       />
 
       <Pressable style={styles.botao} onPress={salvarAlteracoes}>
-        <Text style={styles.texto_botao}>Salvar</Text>
+        <Text style={styles.texto_botaoSalvar}>Salvar</Text>
       </Pressable>
 
       <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>
-        <Text style={styles.texto_botao}>Voltar</Text>
+        <Text style={styles.buttonTextVoltar}>Voltar</Text>
       </Pressable>
     </View>
   );

@@ -10,28 +10,23 @@ import { Turma } from "../types/Turma";
 
 
 
-// Função para formatar a data de nascimento para o formato dd/mm/yyyy
 const formatarDataNascimento = (data: any) => {
-    if (!data) return ""; // Se a data for inválida, retorna uma string vazia
+    if (!data) return "";
 
-    // Se a data for um timestamp do Firestore
     if (data.toDate) {
-        data = data.toDate(); // Converte o Timestamp para um objeto Date
+        data = data.toDate();
     }
 
-    // Ajusta para o fuso horário local
     const date = new Date(data);
     const dia = String(date.getDate()).padStart(2, "0");
-    const mes = String(date.getMonth() + 1).padStart(2, "0"); // Meses começam em 0
+    const mes = String(date.getMonth() + 1).padStart(2, "0");
     const ano = date.getFullYear();
 
-    return `${dia}/${mes}/${ano}`; // Retorna no formato dd/mm/yyyy
+    return `${dia}/${mes}/${ano}`;
 };
 
-// Função para converter a data dd/mm/yyyy para timestamp
 const converterDataParaTimestamp = (data: string): number => {
     const [dia, mes, ano] = data.split("/").map(Number);
-    // Lembrando que o mês no Date é de 0 a 11, então subtraímos 1 do mês.
     const dataFormatada = new Date(ano, mes - 1, dia).getTime();
     return dataFormatada;
 };
@@ -66,7 +61,6 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
         return () => unsubscribe();
     }, []);
 
-    // Carrega os dados do aluno
     useEffect(() => {
         firestore()
             .collection("aluno")
@@ -136,7 +130,7 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
             .doc(id)
             .update({
                 nome: aluno.nome,
-                data_nascimento: aluno.data_nascimento, // Aqui a data será salva corretamente
+                data_nascimento: aluno.data_nascimento,
                 email: aluno.email,
                 turma: turmaSelecionada,
             })
@@ -150,12 +144,9 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
             });
     }
 
-    // Função para lidar com a alteração da data no formato dd/mm/yyyy
     function handleDataNascimentoChange(text: string) {
-        // Remove caracteres não numéricos
         let cleanedText = text.replace(/\D/g, "");
 
-        // Insere as barras automaticamente
         if (cleanedText.length >= 3) {
             cleanedText = cleanedText.slice(0, 2) + "/" + cleanedText.slice(2);
         }
@@ -163,10 +154,8 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
             cleanedText = cleanedText.slice(0, 5) + "/" + cleanedText.slice(5);
         }
 
-        // Atualiza o estado da data no formato dd/mm/yyyy
         setDataNascimentoInput(cleanedText);
 
-        // Quando a data tiver 10 caracteres (dd/mm/yyyy), converte para timestamp
         if (cleanedText.length === 10) {
             const novaData = converterDataParaTimestamp(cleanedText);
             setAluno({ ...aluno, data_nascimento: novaData });
@@ -177,6 +166,7 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
         <View style={styles.container}>
             <Text style={styles.titulo}>Alterar Aluno</Text>
 
+            <Text style={styles.label}>Nome do aluno/a:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Nome"
@@ -184,15 +174,16 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
                 onChangeText={(text) => setAluno({ ...aluno, nome: text })}
             />
 
-            {/* Exibe a data corretamente formatada */}
+            <Text style={styles.label}>Data de nascimento:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Data de Nascimento (dd/mm/yyyy)"
                 keyboardType="numeric"
-                value={dataNascimentoInput}  // Utiliza o estado para controlar o campo de entrada
-                onChangeText={handleDataNascimentoChange}  // Lida com a alteração da data
+                value={dataNascimentoInput}
+                onChangeText={handleDataNascimentoChange}
             />
 
+            <Text style={styles.label}>Email do aluno ou responsável:</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -218,13 +209,12 @@ const AlterarAluno = (props: AlterarAlunoProps) => {
                     ))}
                 </Picker>
             </View>
-
             <Pressable style={styles.botao} onPress={salvarAlteracoes}>
-                <Text style={styles.texto_botao}>Salvar</Text>
+                <Text style={styles.texto_botaoSalvar}>Salvar</Text>
             </Pressable>
 
             <Pressable style={styles.botaoVoltar} onPress={() => props.navigation.goBack()}>
-                <Text style={styles.texto_botao}>Voltar</Text>
+                <Text style={styles.buttonTextVoltar}>Voltar</Text>
             </Pressable>
         </View>
     );
